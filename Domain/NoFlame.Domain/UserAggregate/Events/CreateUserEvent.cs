@@ -16,12 +16,12 @@ namespace NoFlame.Domain.UserAggregate.Events
             LoginName = loginName;
             Password = password;
             Email = email;
-            İd = id;
+            Id = id;
             FirstName = firstName;
             IsActive = isActive;
         }
 
-        public Guid İd { get; }
+        public Guid Id { get; }
         public string FirstName { get; }
         public bool IsActive { get; }
         public string LastName { get; }
