@@ -29,7 +29,7 @@ namespace NoFlame.Domain.UserAggregate
         }
         [JsonIgnore]
         [IgnoreDataMember]
-        public List<User> Users { get; set; }
+        public List<User> User { get; set; }
         
     }
 }

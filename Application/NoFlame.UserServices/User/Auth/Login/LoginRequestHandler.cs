@@ -27,18 +27,21 @@ namespace NoFlame.UserServices.User.Auth.Login
             var IsValid = await _userRepository.IsValidUserCredentials(request.UserName, request.Password);
             if (!IsValid)
                 throw new Exception("User does not exist");
-            var roles = await _userRepository.GetUserRoles(request.UserName);
-            var listOfRoles = String.Join(",", roles.Select(x => x.Name.ToString()));
-            var claims = new[]
+            var roles = await _userRepository.GetUserRoles(request.UserName);          
+            var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, request.UserName),
-                new Claim(ClaimTypes.Role, listOfRoles)                
+                new Claim(ClaimTypes.Name, request.UserName),                             
             };
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role.Name));                
+            }
             var jwtResult = _jwtAuthManager.GenerateTokens(request.UserName, claims, DateTime.Now);
+
             return new LoginResult
-    {
+            {
                 UserName = request.UserName,
-                Role = listOfRoles,
+                Role = String.Join(",", roles.Select(x => x.Name)),
                 AccessToken = jwtResult.AccessToken,
                 RefreshToken = jwtResult.RefreshToken.TokenString
             };

@@ -44,25 +44,28 @@ namespace NoFlame.WebApi.Controllers
         {
             return Ok(await _mediator.Send(request, ct));
         }
-        [HttpGet]
-        [Route("authenticated")]
+        [HttpGet("authenticated")]
         [Authorize]
         public string Authenticated() {
             return String.Format("Authenticated - {0}", User.Identity.Name); }
 
-        [HttpGet]
-        [Route("Admin")]
+        [HttpGet("Admin")]
         [Authorize(Roles = "Admin")]
         public string Admin()
         {
             return "You're admin";
         }
-        [HttpPost]
-        [Route("RefreshToken")]
-        [Authorize(Roles = "Admin")]
+        [HttpPost("RefreshToken")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> RefreshToken(RefreshTokenRequest request, CancellationToken ct)
         {
             return Ok(await _mediator.Send(request, ct));
+        }
+        [HttpGet("Random")]
+        [Authorize(Roles ="Random")]
+        public string Random()
+        {
+            return "You're Random";
         }
     }
 }

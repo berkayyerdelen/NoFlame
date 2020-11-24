@@ -10,8 +10,8 @@ using NoFlame.Infrastructure.Context;
 namespace NoFlame.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20201123142423_Event_table")]
-    partial class Event_table
+    [Migration("20201124115943_initial-tables")]
+    partial class initialtables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -134,12 +134,12 @@ namespace NoFlame.Infrastructure.Migrations
                     b.Property<Guid>("RolesId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UsersId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("RolesId", "UsersId");
+                    b.HasKey("RolesId", "UserId");
 
-                    b.HasIndex("UsersId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("RoleUser");
                 });
@@ -154,7 +154,7 @@ namespace NoFlame.Infrastructure.Migrations
 
                     b.HasOne("NoFlame.Domain.UserAggregate.User", null)
                         .WithMany()
-                        .HasForeignKey("UsersId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

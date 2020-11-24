@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NoFlame.Core.Interfaces;
 using NoFlame.Domain.Repository;
+using NoFlame.EventServices.Events.EventList;
 using NoFlame.Infrastructure.Context;
 using NoFlame.Infrastructure.Repository;
 using NoFlame.Infrastructure.Repository.Authentication;
@@ -75,6 +76,7 @@ namespace NoFlame.WebApi
             services.AddMediatR(typeof(LoginRequestHandler));
             services.AddMediatR(typeof(LogOutRequestHandler));
             services.AddMediatR(typeof(RefreshTokenRequestHandler));
+            services.AddMediatR(typeof(GetEventListRequestHandler));
 
             services.AddScoped<IMediator, Mediator>();
 

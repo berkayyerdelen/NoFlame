@@ -20,7 +20,7 @@ namespace NoFlame.Infrastructure.Repository.Authentication
         public Task StartAsync(CancellationToken stoppingToken)
         {
             // remove expired refresh tokens from cache every minute
-            _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
+            _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromMinutes(20));
             return Task.CompletedTask;
         }
 

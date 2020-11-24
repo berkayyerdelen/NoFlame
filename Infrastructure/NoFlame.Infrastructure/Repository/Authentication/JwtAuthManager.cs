@@ -43,7 +43,7 @@ namespace NoFlame.Infrastructure.Repository.Authentication
             }
         }
 
-        public JwtAuthResult GenerateTokens(string username, Claim[] claims, DateTime now)
+        public JwtAuthResult GenerateTokens(string username, List<Claim> claims, DateTime now)
         {
             var shouldAddAudienceClaim = string.IsNullOrWhiteSpace(claims?.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Aud)?.Value);
             var jwtToken = new JwtSecurityToken(
@@ -87,7 +87,7 @@ namespace NoFlame.Infrastructure.Repository.Authentication
                 throw new SecurityTokenException("Invalid token");
             }
 
-            return GenerateTokens(userName, principal.Claims.ToArray(), now); // need to recover the original claims
+            return GenerateTokens(userName, principal.Claims.ToList(), now); // need to recover the original claims
         }
 
         public (ClaimsPrincipal, JwtSecurityToken) DecodeJwtToken(string token)

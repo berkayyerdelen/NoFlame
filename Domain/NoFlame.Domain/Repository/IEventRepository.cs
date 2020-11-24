@@ -11,6 +11,6 @@ namespace NoFlame.Domain.Repository
     {
         Task<IList<Event>> GetEvents();
         Task<bool> DeleteEvents(IList<Guid> eventIds);
-        Task<IList<Event>> GetEventsUndeleted();
+        Task<IList<Event>> GetEventsUndeleted();        
     }
 }

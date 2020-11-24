@@ -132,12 +132,12 @@ namespace NoFlame.Infrastructure.Migrations
                     b.Property<Guid>("RolesId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UsersId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("RolesId", "UsersId");
+                    b.HasKey("RolesId", "UserId");
 
-                    b.HasIndex("UsersId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("RoleUser");
                 });
@@ -152,7 +152,7 @@ namespace NoFlame.Infrastructure.Migrations
 
                     b.HasOne("NoFlame.Domain.UserAggregate.User", null)
                         .WithMany()
-                        .HasForeignKey("UsersId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
