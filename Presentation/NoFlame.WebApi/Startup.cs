@@ -18,6 +18,9 @@ using NoFlame.Infrastructure.Context;
 using NoFlame.Infrastructure.Repository;
 using NoFlame.Infrastructure.Repository.Authentication;
 using NoFlame.Infrastructure.Repository.Behaviors;
+using NoFlame.RoleServices.Roles.CreateRole;
+using NoFlame.RoleServices.Roles.DeleteRole;
+using NoFlame.RoleServices.Roles.GetRoles;
 using NoFlame.UserServices.User.Auth.Login;
 using NoFlame.UserServices.User.Auth.Logout;
 using NoFlame.UserServices.User.Auth.RefreshToken;
@@ -70,6 +73,7 @@ namespace NoFlame.WebApi
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
 
             services.AddMediatR(typeof(CreateUserCommandHandler));
             services.AddMediatR(typeof(UpdateUserActivityCommandHandler));
@@ -77,6 +81,11 @@ namespace NoFlame.WebApi
             services.AddMediatR(typeof(LogOutRequestHandler));
             services.AddMediatR(typeof(RefreshTokenRequestHandler));
             services.AddMediatR(typeof(GetEventListRequestHandler));
+            services.AddMediatR(typeof(CreateRoleCommandHandler));
+            services.AddMediatR(typeof(DeleteRoleCommandHandler));
+            services.AddMediatR(typeof(UpdateUserActivityCommandHandler));
+            services.AddMediatR(typeof(GetRolesRequestHandler));
+
 
             services.AddScoped<IMediator, Mediator>();
 

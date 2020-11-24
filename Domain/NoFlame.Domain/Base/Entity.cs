@@ -7,10 +7,10 @@ namespace NoFlame.Domain.Base
     public abstract class Entity
     {       
         public Guid Id { get; set; }
-        public DateTime CreationTime { get; protected set; }
-        public Guid? CreatorUserId { get; protected set; }
-        public DateTime? LastModificationTime { get; protected set; }
-        public Guid? LastModifierUserId { get; protected set; }
+        public DateTime CreationTime { get;  set; }
+        public Guid? CreatorUserId { get; set; }
+        public DateTime? LastModificationTime { get; set; }
+        public Guid? LastModifierUserId { get; set; }
 
         private List<INotification> _domainEvents;
         public IReadOnlyCollection<INotification> DomainEvents => _domainEvents?.AsReadOnly();

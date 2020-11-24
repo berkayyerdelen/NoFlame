@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Application\NoFlame.EventServices\NoFlame.EventServices.csproj" />
+    <ProjectReference Include="..\..\Application\NoFlame.RoleServices\NoFlame.RoleServices.csproj" />
     <ProjectReference Include="..\..\Application\NoFlame.UserServices\NoFlame.UserServices.csproj" />
     <ProjectReference Include="..\..\Infrastructure\NoFlame.Infrastructure\NoFlame.Infrastructure.csproj" />
   </ItemGroup>

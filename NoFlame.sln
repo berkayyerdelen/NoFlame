@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoFlame.Core", "Application
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoFlame.EventServices", "Application\NoFlame.EventServices\NoFlame.EventServices.csproj", "{4E4BBE90-A59A-4B43-B96A-BA7900C1FD06}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoFlame.RoleServices", "Application\NoFlame.RoleServices\NoFlame.RoleServices.csproj", "{17D40C92-6043-4E0D-96B6-17B0A73EC01A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{4E4BBE90-A59A-4B43-B96A-BA7900C1FD06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E4BBE90-A59A-4B43-B96A-BA7900C1FD06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E4BBE90-A59A-4B43-B96A-BA7900C1FD06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17D40C92-6043-4E0D-96B6-17B0A73EC01A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17D40C92-6043-4E0D-96B6-17B0A73EC01A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17D40C92-6043-4E0D-96B6-17B0A73EC01A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17D40C92-6043-4E0D-96B6-17B0A73EC01A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +70,7 @@ Global
 		{AA63A00F-3839-4B70-A628-96CB88226B24} = {87F450B3-185B-4F2A-B921-905A9BB0FFDB}
 		{A7784498-CCC1-471A-8691-3F1F2FBE5047} = {87F450B3-185B-4F2A-B921-905A9BB0FFDB}
 		{4E4BBE90-A59A-4B43-B96A-BA7900C1FD06} = {87F450B3-185B-4F2A-B921-905A9BB0FFDB}
+		{17D40C92-6043-4E0D-96B6-17B0A73EC01A} = {87F450B3-185B-4F2A-B921-905A9BB0FFDB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A039577E-97FC-4A30-A512-D800A39166AD}
