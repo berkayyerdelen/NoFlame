@@ -24,24 +24,24 @@ namespace NoFlame.UserServices.User.Auth.Login
        
         public async Task<LoginResult> Handle(LoginRequest request, CancellationToken cancellationToken)
         {
-            var IsValid = await _userRepository.IsValidUserCredentials(request.UserName, request.Password);
-            if (!IsValid)
+            var userId = await _userRepository.IsValidUserCredentials(request.UserName, request.Password);
+            if (userId==Guid.Empty)
                 throw new Exception("User does not exist");
-            var roles = await _userRepository.GetUserRoles(request.UserName);          
+            var roles = await _userRepository.GetUserRoles(userId);          
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, request.UserName),                             
             };
             foreach (var role in roles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role.Name));                
+                claims.Add(new Claim(ClaimTypes.Role, role));                
             }
             var jwtResult = _jwtAuthManager.GenerateTokens(request.UserName, claims, DateTime.Now);
 
             return new LoginResult
             {
                 UserName = request.UserName,
-                Role = String.Join(",", roles.Select(x => x.Name)),
+                Role = String.Join(",", roles.Select(x => x)),
                 AccessToken = jwtResult.AccessToken,
                 RefreshToken = jwtResult.RefreshToken.TokenString
             };

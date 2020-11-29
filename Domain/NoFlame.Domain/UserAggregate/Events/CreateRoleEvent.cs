@@ -14,5 +14,9 @@ namespace NoFlame.Domain.UserAggregate.Events
         {
             RoleName = roleName;
         }
+        public CreateRoleEvent()
+        {
+
+        }
     }
 }

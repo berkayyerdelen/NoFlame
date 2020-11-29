@@ -16,20 +16,18 @@ namespace NoFlame.Domain.UserAggregate
         public string Name { get; set; }
         public Role()
         {
-
+            
         }
         public Role(string roleName)
         {
             Name = roleName;
+            CreationTime = DateTime.UtcNow;
+            LastModificationTime = DateTime.UtcNow;
             this.AddDomainEvent(new CreateRoleEvent(roleName));
         }
         public static Role CreateRole(string roleName)
         {
             return new Role(roleName);
-        }
-        [JsonIgnore]
-        [IgnoreDataMember]
-        public List<User> User { get; set; }
-        
+        }       
     }
 }

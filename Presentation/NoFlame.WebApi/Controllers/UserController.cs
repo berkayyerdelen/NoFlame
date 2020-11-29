@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NoFlame.UserServices.User.CreateUser;
+using NoFlame.UserServices.User.UserClaims;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,23 +16,26 @@ namespace NoFlame.WebApi.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        public IMediator _mediator{ get; set; }
+        public IMediator _mediator { get; set; }
 
         public UserController(IMediator mediator)
         {
             _mediator = mediator;
         }
         [HttpPost("CreateUser")]
-        public async Task<IActionResult> CreateUser([FromBody]CreateUserCommand request, CancellationToken ct)
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand request, CancellationToken ct)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
-            }          
+            }
             return Ok(await _mediator.Send(request));
         }
-        
-     
+        [HttpPost("SetUserRoles")]
+        public async Task<IActionResult> SetUserRoles([FromBody] SetUserRoleCommand request, CancellationToken ct)
+        {
+            return Ok(await _mediator.Send(request, ct));
+        }
 
     }
 }

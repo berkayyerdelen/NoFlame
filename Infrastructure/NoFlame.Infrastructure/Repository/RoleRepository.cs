@@ -21,7 +21,7 @@ namespace NoFlame.Infrastructure.Repository
         }
         public async Task CreateRole(string roleName)
         {
-            await _context.Set<Role>().AddAsync(new Role() { Id = Guid.NewGuid(), Name = roleName, CreationTime = DateTime.Now });
+            await _context.Set<Role>().AddAsync(new Role(roleName));
             await _context.SaveChangesAsync(CancellationToken.None);
         }
 

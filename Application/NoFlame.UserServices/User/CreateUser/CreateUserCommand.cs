@@ -13,7 +13,6 @@ namespace NoFlame.UserServices.User.CreateUser
         public string Password { get; set; }
         public string Email { get; set; }
         public bool IsActive { get; set; }
-        public List<Role> Roles { get; set; }
-
+        
     }
 }

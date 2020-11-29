@@ -18,34 +18,49 @@ namespace NoFlame.Infrastructure.Repository
         {
             _context = context;
         }
-
-        public async Task<IList<Role>> GetUserRoles(string userName)
+        public async Task<List<string>> GetUserRoles(Guid id)
         {
-            var userRole = await _context.Set<User>().Include(x=>x.Roles).FirstOrDefaultAsync(x => x.LoginName == userName);
-            return userRole.Roles;
-        }
+          
+            var roles = await (from userRole in _context.Set<UserRole>()
+                        join role in _context.Set<Role>() on
+                        userRole.RoleId equals role.Id
+                        where userRole.UserId == id
+                        select new
+                        {
+                          Role= role.Name
+                        }.Role).ToListAsync();
+            
 
+            return roles;
+        }
         public async Task InsertUser(User user)
         {
             await _context.Set<User>().AddAsync(user);
-            await _context.SaveChangesAsync(true,CancellationToken.None);
+            await _context.SaveChangesAsync(true, CancellationToken.None);
         }
 
-        public async Task<bool> IsValidUserCredentials(string userName, string password)
+        public async Task<Guid> IsValidUserCredentials(string userName, string password)
         {
-            return await _context.Set<User>().AnyAsync(x => x.LoginName == userName && x.Password == password);
+            var userId = await _context.Set<User>().FirstOrDefaultAsync(x => x.LoginName == userName & x.Password == password);
+            return userId.Id;
         }
 
         public async Task<User> UpdateUserActivity(Guid id, bool isActive)
         {
-           var user = await _context.Set<User>().FindAsync(id);
-           if (isActive == true)
-               user.Activate();
-           else user.Deactivate();
-           await _context.SaveChangesAsync(true,CancellationToken.None);
-           return user;
+            var user = await _context.Set<User>().FindAsync(id);
+            if (isActive == true)
+                user.Activate();
+            else user.Deactivate();
+            await _context.SaveChangesAsync(true, CancellationToken.None);
+            return user;
         }
-
-        
+       public async Task SetUserRole(Guid id, List<Guid> RoleIds)
+        {
+            foreach (var roleId in RoleIds)
+            {
+                await _context.Set<UserRole>().AddAsync(new UserRole(id, roleId));
+            }
+            await _context.SaveChangesAsync(true, CancellationToken.None);
+        }
     }
 }
