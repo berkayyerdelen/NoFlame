@@ -21,7 +21,7 @@ namespace NoFlame.Infrastructure.Repository
         public async Task<List<string>> GetUserRoles(Guid id)
         {
 
-            var roles = await (from userRole in _context.Set<UserRole>()
+            return await (from userRole in _context.Set<UserRole>()
                                join role in _context.Set<Role>() on
                                userRole.RoleId equals role.Id
                                where userRole.UserId == id
@@ -29,9 +29,7 @@ namespace NoFlame.Infrastructure.Repository
                                {
                                    Role = role.Name
                                }.Role).ToListAsync();
-
-
-            return roles;
+         
         }
         public async Task InsertUser(User user)
         {
