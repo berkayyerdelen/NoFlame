@@ -20,16 +20,16 @@ namespace NoFlame.Infrastructure.Repository
         }
         public async Task<List<string>> GetUserRoles(Guid id)
         {
-          
+
             var roles = await (from userRole in _context.Set<UserRole>()
-                        join role in _context.Set<Role>() on
-                        userRole.RoleId equals role.Id
-                        where userRole.UserId == id
-                        select new
-                        {
-                          Role= role.Name
-                        }.Role).ToListAsync();
-            
+                               join role in _context.Set<Role>() on
+                               userRole.RoleId equals role.Id
+                               where userRole.UserId == id
+                               select new
+                               {
+                                   Role = role.Name
+                               }.Role).ToListAsync();
+
 
             return roles;
         }
@@ -54,12 +54,12 @@ namespace NoFlame.Infrastructure.Repository
             await _context.SaveChangesAsync(true, CancellationToken.None);
             return user;
         }
-       public async Task SetUserRole(Guid id, List<Guid> RoleIds)
+        public async Task SetUserRole(Guid id, List<Guid> roleIds)
         {
-            foreach (var roleId in RoleIds)
+            roleIds.ForEach(async roleId =>
             {
                 await _context.Set<UserRole>().AddAsync(new UserRole(id, roleId));
-            }
+            });
             await _context.SaveChangesAsync(true, CancellationToken.None);
         }
     }
