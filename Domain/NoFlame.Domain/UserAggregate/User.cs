@@ -34,20 +34,20 @@ namespace NoFlame.Domain.UserAggregate
             return this;
         }
 
-        public User(Guid id, string firstName, string lastName, string loginName, string password, string email, bool isActive)
+        public User(string firstName, string lastName, string loginName, string password, string email, bool isActive)
         {
-            Id = id;
+            Id = Guid.NewGuid();
             FirstName = firstName;
             LastName = lastName;
             LoginName = loginName;
             Password = password;
             Email = email;
             IsActive = isActive;
-            this.AddDomainEvent(new CreateUserEvent(id, firstName, lastName, loginName, password, email, isActive));
+            this.AddDomainEvent(new CreateUserEvent(Id, firstName, lastName, loginName, password, email, isActive));
         }    
-        public static User CreateUser(Guid id, string firstName, string lastName, string loginName, string password, string email, bool isActive)
+        public static User CreateUser(string firstName, string lastName, string loginName, string password, string email, bool isActive)
         {
-            return new User(id, firstName, lastName, loginName, password, email, isActive);
+            return new User(firstName, lastName, loginName, password, email, isActive);
         }     
     }
 }

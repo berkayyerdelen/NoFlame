@@ -27,13 +27,13 @@ namespace NoFlame.Infrastructure.Repository
                                where userRole.UserId == id
                                select new
                                {
-                                   Role = role.Name
+                                 Role = role.Name
                                }.Role).ToListAsync();
          
         }
         public async Task InsertUser(User user)
         {
-            await _context.Set<User>().AddAsync(user);
+            await _context.Set<User>().AddAsync(User.CreateUser(user.FirstName,user.LastName,user.LoginName,user.Password,user.Email,user.IsActive));
             await _context.SaveChangesAsync(true, CancellationToken.None);
         }
 
