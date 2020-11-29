@@ -58,7 +58,7 @@ namespace NoFlame.Infrastructure.Repository
         {
             roleIds.ForEach(async roleId =>
             {
-                await _context.Set<UserRole>().AddAsync(new UserRole(id, roleId));
+                await _context.Set<UserRole>().AddAsync(UserRole.CreateUserRole(id,roleId));
             });
             await _context.SaveChangesAsync(true, CancellationToken.None);
         }
