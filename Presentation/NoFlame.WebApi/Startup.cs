@@ -26,6 +26,7 @@ using NoFlame.UserServices.User.Auth.Logout;
 using NoFlame.UserServices.User.Auth.RefreshToken;
 using NoFlame.UserServices.User.CreateUser;
 using NoFlame.UserServices.User.UpdateUserActivity;
+using NoFlame.UserServices.User.UserClaims;
 using System;
 using System.Text;
 
@@ -85,6 +86,7 @@ namespace NoFlame.WebApi
             services.AddMediatR(typeof(DeleteRoleCommandHandler));
             services.AddMediatR(typeof(UpdateUserActivityCommandHandler));
             services.AddMediatR(typeof(GetRolesRequestHandler));
+            services.AddMediatR(typeof(SetUserRoleCommandHandler));
 
 
             services.AddScoped<IMediator, Mediator>();
