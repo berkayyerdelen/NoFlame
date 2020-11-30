@@ -11,6 +11,7 @@ namespace NoFlame.Domain.UserAggregate
 {
     public class UserRole:ValueObjectBase
     {
+        
         public UserRole()
         {
             

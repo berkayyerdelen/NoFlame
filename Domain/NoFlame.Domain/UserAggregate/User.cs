@@ -9,7 +9,7 @@ namespace NoFlame.Domain.UserAggregate
 {
     public class User : Entity, IAggregateRoot
     {
-        public User()
+        protected User()
         {
             
         }
@@ -34,7 +34,7 @@ namespace NoFlame.Domain.UserAggregate
             return this;
         }
 
-        public User(string firstName, string lastName, string loginName, string password, string email, bool isActive)
+        protected User(string firstName, string lastName, string loginName, string password, string email, bool isActive)
         {
             Id = Guid.NewGuid();
             FirstName = firstName;
