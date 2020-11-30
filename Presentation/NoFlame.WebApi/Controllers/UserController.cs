@@ -36,6 +36,5 @@ namespace NoFlame.WebApi.Controllers
         {
             return Ok(await _mediator.Send(request, ct));
         }
-
     }
 }

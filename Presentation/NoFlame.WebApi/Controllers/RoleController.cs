@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NoFlame.RoleServices.Roles.CreateRole;
+using NoFlame.RoleServices.Roles.DeleteRole;
+using NoFlame.RoleServices.Roles.GetRoles;
 using NoFlame.RoleServices.Roles.UpdateRole;
 using System;
 using System.Collections.Generic;
@@ -12,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace NoFlame.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("v1/api/[controller]")]
     [ApiController]
     public class RoleController : ControllerBase
     {
@@ -33,6 +35,16 @@ namespace NoFlame.WebApi.Controllers
         public async Task<IActionResult> UpdateRole(Guid id, string roleName)
         {
             return Ok(await _mediator.Send(new UpdateRoleCommand(id, roleName)));
+        }
+        [HttpDelete("DeleteRole")]
+        public async Task<IActionResult> DeleteRole(Guid id)
+        {
+            return Ok(await _mediator.Send(new DeleteRoleCommand(id)));
+        }
+        [HttpGet("GetRoleList")]
+        public async Task<IActionResult> GetRoleList()
+        {
+            return Ok(await _mediator.Send(new GetRolesRequest()));
         }
     }
 }
