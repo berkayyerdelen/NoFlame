@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NoFlame.RoleServices.Roles.CreateRole;
+using NoFlame.RoleServices.Roles.UpdateRole;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,10 +24,15 @@ namespace NoFlame.WebApi.Controllers
         }
      
         // POST api/<RoleController>
-        [HttpPost]
+        [HttpPost("CreateRole")]
         public async Task<IActionResult> CreateRole(string roleName)
         {
             return Ok(await _mediator.Send(new CreateRoleCommand(roleName)));
+        }
+        [HttpPost("UpdateRole")]
+        public async Task<IActionResult> UpdateRole(Guid id, string roleName)
+        {
+            return Ok(await _mediator.Send(new UpdateRoleCommand(id, roleName)));
         }
     }
 }

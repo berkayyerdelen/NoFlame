@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 
 namespace NoFlame.Domain.UserAggregate.Events
 {
-    public class AddRoleEvent: INotification
+    public class UpdateRoleNameEvent:INotification
     {
-        public Role Role { get; set; }
-        public AddRoleEvent(Role role)
+        public string RoleName { get; set; }
+        public UpdateRoleNameEvent(string roleName)
         {
-            Role = role;
-
+            RoleName = roleName;
         }
     }
 }

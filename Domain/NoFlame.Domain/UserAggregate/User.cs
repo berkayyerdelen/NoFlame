@@ -9,7 +9,7 @@ namespace NoFlame.Domain.UserAggregate
 {
     public class User : Entity, IAggregateRoot
     {
-        protected User()
+        private User()
         {
             
         }

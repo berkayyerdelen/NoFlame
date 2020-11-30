@@ -21,15 +21,15 @@ namespace NoFlame.Infrastructure.Repository
         }
         public async Task CreateRole(string roleName)
         {
-            await _context.Set<Role>().AddAsync(new Role(roleName));
-            await _context.SaveChangesAsync(CancellationToken.None);
+            await _context.Set<Role>().AddAsync(Role.CreateRole(roleName));
+            await _context.SaveChangesAsync(true,CancellationToken.None);
         }
 
         public async Task<bool> DeleteRole(Guid id)
         {
             var role =await _context.Set<Role>().FindAsync(id);
             _context.Set<Role>().Remove(role);
-            return await _context.SaveChangesAsync(CancellationToken.None)==1;
+            return await _context.SaveChangesAsync(true,CancellationToken.None)==1;
         }
 
         public async Task<List<Role>> GetRoles()
@@ -40,9 +40,9 @@ namespace NoFlame.Infrastructure.Repository
         public async Task<bool> UpdateRole(Guid id, string roleName)
         {
             var role = await _context.Set<Role>().FindAsync(id);
-            role.Name = roleName;
+            role.UpdateRoleName(roleName);
             role.LastModificationTime = DateTime.UtcNow;
-            return await _context.SaveChangesAsync(CancellationToken.None) == 1;
+            return await _context.SaveChangesAsync(true,CancellationToken.None) == 1;
         }
     }
 }

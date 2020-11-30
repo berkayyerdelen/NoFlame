@@ -12,11 +12,11 @@ namespace NoFlame.Domain.UserAggregate
     public class UserRole:ValueObjectBase
     {
         
-        public UserRole()
+        private UserRole()
         {
             
         }
-        public UserRole(Guid userId, Guid roleId)
+        internal UserRole(Guid userId, Guid roleId)
         {
             UserId = userId;
             RoleId = roleId;
@@ -33,7 +33,8 @@ namespace NoFlame.Domain.UserAggregate
 
         public override IEnumerable<object> GetEqualityComponents()
         {
-            throw new NotImplementedException();
+            yield return UserId;
+            yield return RoleId;
         }
     }
 }

@@ -13,12 +13,12 @@ namespace NoFlame.Domain.UserAggregate
 {
     public class Role:Entity
     {        
-        public string Name { get; set; }
-        public Role()
+        public string Name { get; private set; }
+        private Role()
         {
             
         }
-        public Role(string roleName)
+        protected Role(string roleName)
         {
             Name = roleName;
             CreationTime = DateTime.UtcNow;
@@ -28,6 +28,12 @@ namespace NoFlame.Domain.UserAggregate
         public static Role CreateRole(string roleName)
         {
             return new Role(roleName);
-        }       
+        } 
+        public Role UpdateRoleName(string roleName)
+        {
+            Name = roleName;
+            this.AddDomainEvent(new UpdateRoleNameEvent(roleName));
+            return this;
+        }
     }
 }
