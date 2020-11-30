@@ -10,7 +10,7 @@ using NoFlame.Infrastructure.Context;
 namespace NoFlame.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20201129160954_Initial_tables")]
+    [Migration("20201130085358_Initial_tables")]
     partial class Initial_tables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,54 +131,32 @@ namespace NoFlame.Infrastructure.Migrations
 
             modelBuilder.Entity("NoFlame.Domain.UserAggregate.UserRole", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatorUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("LastModifierUserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserRoles");
+                    b.ToTable("UserRole");
                 });
 
             modelBuilder.Entity("NoFlame.Domain.UserAggregate.UserRole", b =>
                 {
-                    b.HasOne("NoFlame.Domain.UserAggregate.Role", "Role")
+                    b.HasOne("NoFlame.Domain.UserAggregate.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NoFlame.Domain.UserAggregate.User", "User")
+                    b.HasOne("NoFlame.Domain.UserAggregate.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }
