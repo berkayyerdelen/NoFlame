@@ -25,25 +25,21 @@ namespace NoFlame.Infrastructure.Repository.Authentication
             _usersRefreshTokens = new ConcurrentDictionary<string, RefreshToken>();
             _secret = Encoding.ASCII.GetBytes(jwtTokenConfig.Secret);
         }
-        public void RemoveExpiredRefreshTokens(DateTime now)
+        public Task RemoveExpiredRefreshTokens(DateTime now)
         {
             var expiredTokens = _usersRefreshTokens.Where(x => x.Value.ExpireAt < now).ToList();
-            foreach (var expiredToken in expiredTokens)
-            {
-                _usersRefreshTokens.TryRemove(expiredToken.Key, out _);
-            }
+            expiredTokens.ForEach(expiredToken => { _usersRefreshTokens.TryRemove(expiredToken.Key, out _); });
+            return Task.CompletedTask;
         }
 
-        public void RemoveRefreshTokenByUserName(string userName)
+        public Task RemoveRefreshTokenByUserName(string userName)
         {
             var refreshTokens = _usersRefreshTokens.Where(x => x.Value.UserName == userName).ToList();
-            foreach (var refreshToken in refreshTokens)
-            {
-                _usersRefreshTokens.TryRemove(refreshToken.Key, out _);
-            }
+            refreshTokens.ForEach(refreshToken => { _usersRefreshTokens.TryRemove(refreshToken.Key, out _); });
+            return Task.CompletedTask;
         }
 
-        public JwtAuthResult GenerateTokens(string username, List<Claim> claims, DateTime now)
+        public async Task<JwtAuthResult> GenerateTokens(string username, List<Claim> claims, DateTime now)
         {
             var shouldAddAudienceClaim = string.IsNullOrWhiteSpace(claims?.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Aud)?.Value);
             var jwtToken = new JwtSecurityToken(
@@ -57,21 +53,21 @@ namespace NoFlame.Infrastructure.Repository.Authentication
             var refreshToken = new RefreshToken
             {
                 UserName = username,
-                TokenString = GenerateRefreshTokenString(),
+                TokenString = await GenerateRefreshTokenString(),
                 ExpireAt = now.AddMinutes(_jwtTokenConfig.RefreshTokenExpiration)
             };
             _usersRefreshTokens.AddOrUpdate(refreshToken.TokenString, refreshToken, (s, t) => refreshToken);
 
-            return new JwtAuthResult
+            return await Task.FromResult(new JwtAuthResult
             {
                 AccessToken = accessToken,
                 RefreshToken = refreshToken
-            };
+            });
         }
 
-        public JwtAuthResult Refresh(string refreshToken, string accessToken, DateTime now)
+        public async Task<JwtAuthResult> Refresh(string refreshToken, string accessToken, DateTime now)
         {
-            var (principal, jwtToken) = DecodeJwtToken(accessToken);
+            var (principal, jwtToken) =await DecodeJwtToken(accessToken);
             if (jwtToken == null || !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256Signature))
             {
                 throw new SecurityTokenException("Invalid token");
@@ -87,10 +83,10 @@ namespace NoFlame.Infrastructure.Repository.Authentication
                 throw new SecurityTokenException("Invalid token");
             }
 
-            return GenerateTokens(userName, principal.Claims.ToList(), now); // need to recover the original claims
+            return await GenerateTokens(userName, principal.Claims.ToList(), now); // need to recover the original claims
         }
 
-        public (ClaimsPrincipal, JwtSecurityToken) DecodeJwtToken(string token)
+        public async  Task<(ClaimsPrincipal, JwtSecurityToken)> DecodeJwtToken(string token)
         {
             if (string.IsNullOrWhiteSpace(token))
             {
@@ -110,15 +106,15 @@ namespace NoFlame.Infrastructure.Repository.Authentication
                         ClockSkew = TimeSpan.FromMinutes(1)
                     },
                     out var validatedToken);
-            return (principal, validatedToken as JwtSecurityToken);
+            return await Task.FromResult((principal, validatedToken as JwtSecurityToken));
         }
 
-        private static string GenerateRefreshTokenString()
+        private async static Task<string> GenerateRefreshTokenString()
         {
             var randomNumber = new byte[32];
             using var randomNumberGenerator = RandomNumberGenerator.Create();
             randomNumberGenerator.GetBytes(randomNumber);
-            return Convert.ToBase64String(randomNumber);
+            return await Task.FromResult(Convert.ToBase64String(randomNumber));
         }
     }
 }

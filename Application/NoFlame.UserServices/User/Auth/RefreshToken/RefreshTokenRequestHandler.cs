@@ -21,10 +21,10 @@ namespace NoFlame.UserServices.User.Auth.RefreshToken
             _jwtAuthManager = jwtAuthManager;
             _httpContextAccessor = httpContextAccessor;
         }
-        public Task<LoginResult> Handle(RefreshTokenRequest request, CancellationToken cancellationToken)
+        public async Task<LoginResult> Handle(RefreshTokenRequest request, CancellationToken cancellationToken)
         {
-            var jwtResult = _jwtAuthManager.Refresh(request.RefreshToken, request.AccessToken, DateTime.UtcNow);
-            return Task.FromResult(new LoginResult()
+            var jwtResult = await _jwtAuthManager.Refresh(request.RefreshToken, request.AccessToken, DateTime.UtcNow);
+            return (new LoginResult()
             {
                 AccessToken = jwtResult.AccessToken,
                 RefreshToken = jwtResult.RefreshToken.TokenString,

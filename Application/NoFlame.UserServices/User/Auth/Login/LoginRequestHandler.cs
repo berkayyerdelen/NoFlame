@@ -34,7 +34,7 @@ namespace NoFlame.UserServices.User.Auth.Login
             };
             roles.ForEach(role => { claims.Add(new Claim(ClaimTypes.Role, role)); });
            
-            var jwtResult = _jwtAuthManager.GenerateTokens(request.UserName, claims, DateTime.Now);
+            var jwtResult = await _jwtAuthManager.GenerateTokens(request.UserName, claims, DateTime.Now);
 
             return new LoginResult
             {

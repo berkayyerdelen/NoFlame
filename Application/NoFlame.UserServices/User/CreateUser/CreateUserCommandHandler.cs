@@ -18,7 +18,7 @@ namespace NoFlame.UserServices.User.CreateUser
         public async Task<Unit> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
 
-            var user = Domain.UserAggregate.User.CreateUser(Guid.NewGuid(), request.FirstName, request.LastName,
+            var user = Domain.UserAggregate.User.CreateUser( request.FirstName, request.LastName,
                          request.LoginName, request.Password, request.Email, request.IsActive);
             await _userRepository.InsertUser(user);
             return Unit.Value;
