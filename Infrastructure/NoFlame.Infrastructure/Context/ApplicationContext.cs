@@ -48,8 +48,8 @@ namespace NoFlame.Infrastructure.Context
                                   $"Event: {message.Name}\n" +
                                   $"TopicName: {message.FullName}\n" +
                                   $"EventBody: {eventBody}\n");
-
-                await Events.AddAsync(new Event(message.Name, eventBody, message.FullName), cancellationToken);
+                // TODO: Need to refactor createrId instead of using Guid.Empty
+                await Events.AddAsync(Event.CreateNewEvent(message.Name, eventBody, message.FullName,Guid.Empty), cancellationToken);
             }
 
             return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);

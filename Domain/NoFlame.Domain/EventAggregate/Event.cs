@@ -9,7 +9,11 @@ namespace NoFlame.Domain.EventAggregate
 {
     public class Event : Entity, IAggregateRoot
     {
-        public Event(string eventName, string topicName, string eventBody, Guid? creatorUserId=default)
+        private Event()
+        {
+
+        }
+        protected Event(string eventName, string topicName, string eventBody, Guid? creatorUserId=default)
         {
             EventName = eventName;
             EventBody = eventBody;
@@ -25,8 +29,7 @@ namespace NoFlame.Domain.EventAggregate
         public bool IsDeleted { get; private set; }
         public DateTime? DeletedTime { get; private set; }
         public Guid? DeletedUserId { get; private set; }
-        public Event() { }
-
+        
         public Event DeleteEvent(Guid userId= default)
         {
             IsDeleted = true;
