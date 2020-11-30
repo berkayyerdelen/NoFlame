@@ -33,7 +33,8 @@ namespace NoFlame.Domain.UserAggregate
 
         public override IEnumerable<object> GetEqualityComponents()
         {
-            throw new NotImplementedException();
+            yield return UserId;
+            yield return RoleId;
         }
     }
 }
