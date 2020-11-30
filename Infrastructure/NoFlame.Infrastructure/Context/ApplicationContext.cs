@@ -54,5 +54,16 @@ namespace NoFlame.Infrastructure.Context
 
             return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserRole>(x => 
+            {
+                x.HasOne<User>().WithMany().HasForeignKey(p=>p.UserId);
+                x.HasOne<Role>().WithMany().HasForeignKey(p => p.RoleId);
+                x.HasKey(p => new { p.UserId, p.RoleId });
+                x.ToTable("UserRole");
+            });
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
