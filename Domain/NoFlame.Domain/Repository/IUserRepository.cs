@@ -10,7 +10,7 @@ namespace NoFlame.Domain.Repository
     {
         Task InsertUser(User user);
         Task<User> UpdateUserActivity(Guid id, bool isActive);
-        Task<Guid> IsValidUserCredentials(string userName, string password);
+        Task<User> IsValidUserCredentials(string userName);
         Task<List<string>> GetUserRoles(Guid id);
         Task SetUserRole(Guid id, List<Guid> roleIds);
     }

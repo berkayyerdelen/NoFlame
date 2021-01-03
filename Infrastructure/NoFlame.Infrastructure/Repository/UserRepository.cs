@@ -21,7 +21,7 @@ namespace NoFlame.Infrastructure.Repository
         public async Task<List<string>> GetUserRoles(Guid id)
         {
 
-            return await (from userRole in _context.Set<UserRole>()
+            var roles = await (from userRole in _context.Set<UserRole>()
                                join role in _context.Set<Role>() on
                                userRole.RoleId equals role.Id
                                where userRole.UserId == id
@@ -29,7 +29,8 @@ namespace NoFlame.Infrastructure.Repository
                                {
                                  Role = role.Name
                                }.Role).ToListAsync();
-         
+            return roles;
+
         }
         public async Task InsertUser(User user)
         {
@@ -37,10 +38,10 @@ namespace NoFlame.Infrastructure.Repository
             await _context.SaveChangesAsync(true, CancellationToken.None);
         }
 
-        public async Task<Guid> IsValidUserCredentials(string userName, string password)
+        public async Task<User> IsValidUserCredentials(string userName)
         {
-            var userId = await _context.Set<User>().FirstOrDefaultAsync(x => x.LoginName == userName & x.Password == password);
-            return userId.Id;
+            var user = await _context.Set<User>().FirstOrDefaultAsync(x => x.LoginName == userName);
+            return user;
         }
 
         public async Task<User> UpdateUserActivity(Guid id, bool isActive)

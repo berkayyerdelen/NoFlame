@@ -4,6 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using NoFlame.Domain.Repository;
+using NoFlame.Shared;
+
 
 namespace NoFlame.UserServices.User.CreateUser
 {
@@ -17,9 +19,9 @@ namespace NoFlame.UserServices.User.CreateUser
         }
         public async Task<Unit> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-
+            var password =PasswordHelper.Hash(request.Password);
             var user = Domain.UserAggregate.User.CreateUser( request.FirstName, request.LastName,
-                         request.LoginName, request.Password, request.Email, request.IsActive);
+                         request.LoginName, password, request.Email, request.IsActive);
             await _userRepository.InsertUser(user);
             return Unit.Value;
         }

@@ -21,6 +21,7 @@ namespace NoFlame.UserServices.User.Auth.RefreshToken
             _jwtAuthManager = jwtAuthManager;
             _httpContextAccessor = httpContextAccessor;
         }
+       
         public async Task<LoginResult> Handle(RefreshTokenRequest request, CancellationToken cancellationToken)
         {
             var jwtResult = await _jwtAuthManager.Refresh(request.RefreshToken, request.AccessToken, DateTime.UtcNow);

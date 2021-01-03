@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using NoFlame.Shared;
 
 namespace NoFlame.UserServices.User.Auth.Login
 {
@@ -24,10 +25,16 @@ namespace NoFlame.UserServices.User.Auth.Login
        
         public async Task<LoginResult> Handle(LoginRequest request, CancellationToken cancellationToken)
         {
-            var userId = await _userRepository.IsValidUserCredentials(request.UserName, request.Password);
-            if (userId==Guid.Empty)
+
+            var user = await _userRepository.IsValidUserCredentials(request.UserName);
+            if (user.Id==Guid.Empty)
                 throw new Exception("User does not exist");
-            var roles = await _userRepository.GetUserRoles(userId);          
+           var isPasswordValid= PasswordHelper.Check(user.Password, request.Password);
+           if (isPasswordValid ==false)
+           {
+               throw new Exception("Password is not correct");
+           }
+            var roles = await _userRepository.GetUserRoles(user.Id);          
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, request.UserName),                             

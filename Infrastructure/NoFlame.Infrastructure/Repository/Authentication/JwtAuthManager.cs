@@ -109,7 +109,7 @@ namespace NoFlame.Infrastructure.Repository.Authentication
             return await Task.FromResult((principal, validatedToken as JwtSecurityToken));
         }
 
-        private async static Task<string> GenerateRefreshTokenString()
+        private static async  Task<string> GenerateRefreshTokenString()
         {
             var randomNumber = new byte[32];
             using var randomNumberGenerator = RandomNumberGenerator.Create();
